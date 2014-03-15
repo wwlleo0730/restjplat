@@ -2,6 +2,12 @@ package com.restjplat.quickweb.web;
 
 import com.restjplat.core.utils.PropertiesLoader;
 
+
+/**
+ * add 20140315
+ * @author leos
+ *
+ */
 public class Sysutils {
 	
 	/**
