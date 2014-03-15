@@ -5,6 +5,9 @@ import com.restjplat.core.utils.PropertiesLoader;
 
 /**
  * add 20140315
+ * 
+ * Creating a new branch is quick.
+ * 
  * @author leos
  *
  */
