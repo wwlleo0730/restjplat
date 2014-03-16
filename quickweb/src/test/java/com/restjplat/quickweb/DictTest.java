@@ -32,7 +32,7 @@ public class DictTest extends SpringTransactionalContextTests{
 	@Test
 	public void mainTest(){
 		
-		this.SpringCacheTest();
+		this.JPACacheNamedCacheTest();
 	}
 	
 	/**
@@ -131,12 +131,24 @@ public class DictTest extends SpringTransactionalContextTests{
 	
 	
 	private void SpringCacheTest(){
-		List<Dict> list1 = daoService.getAllDicts();
-		List<Dict> list2 = daoService.getAllDicts();
+		List<Dict> list1 = daoService.getAllDictsWithSpringCache();
+		List<Dict> list2 = daoService.getAllDictsWithSpringCache();
 		logger.info(list1.toString());
 		logger.info(list2.toString());
-		
-		
+	}
+	
+	private void JPACacheTest(){
+		List<Dict> list1 = daoService.getAllDictsWithJPACache();
+		List<Dict> list2 = daoService.getAllDictsWithJPACache();
+		//logger.info(list1.toString());
+		//logger.info(list2.toString());
+	}
+	
+	private void JPACacheNamedCacheTest(){
+		Dict d1 = daoService.getDictsWithJPACache("a");
+		Dict d2 = daoService.getDictsWithJPACache("a");
+		logger.info(d1.getName());
+		logger.info(d2.getName());
 	}
 
 }

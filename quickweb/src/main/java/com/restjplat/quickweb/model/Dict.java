@@ -1,15 +1,12 @@
 package com.restjplat.quickweb.model;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.springframework.cache.annotation.Cacheable;
-
 @Entity
 @Table(name ="dict")
-//@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
-//@Cacheable(value = true)
-//@Cacheable(value =  "sysCache" )
+@Cacheable(true)
 public class Dict extends IdEntity{
 	
 	private static final long serialVersionUID = 1L;

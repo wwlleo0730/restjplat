@@ -15,13 +15,25 @@ public class DictService {
 	@Autowired
 	private DictDao dictDao;
 	
-	@Cacheable(value = "sysCache")
 	public Dict findDictById(int id){
 		return dictDao.findOne(id);
 	}
 	
-	//@Cacheable(value = "sysCache")
-	public List<Dict> getAllDicts(){
+	@Cacheable(value = "sysCache")
+	public List<Dict> getAllDictsWithSpringCache(){
+		System.out.println("in getAllDictsWithSpringCache");
 		return dictDao.findAll();
 	}
+	
+	public List<Dict> getAllDictsWithJPACache(){
+		System.out.println("in getAllDictsWithJPACache");
+		return dictDao.findAllCached();
+	}
+	
+	public Dict getDictsWithJPACache(String name){
+		System.out.println("in getDictsWithJPACache");
+		return dictDao.findByName(name);
+	}
+	
+	
 }
