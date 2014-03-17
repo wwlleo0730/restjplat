@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name ="dict")
-@Cacheable(true)
+@Cacheable
 public class Dict extends IdEntity{
 	
 	private static final long serialVersionUID = 1L;

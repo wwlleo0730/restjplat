@@ -32,7 +32,7 @@ public class DictService {
 	
 	public Dict getDictsWithJPACache(String name){
 		System.out.println("in getDictsWithJPACache");
-		return dictDao.findByName(name);
+		return dictDao.findDictByName(name);
 	}
 	
 	
