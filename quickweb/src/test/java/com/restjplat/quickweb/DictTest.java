@@ -14,8 +14,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.restjplat.quickweb.model.Children;
 import com.restjplat.quickweb.model.Dict;
+import com.restjplat.quickweb.model.Parent;
 import com.restjplat.quickweb.repository.DictDao;
+import com.restjplat.quickweb.repository.ParentDao;
 import com.restjplat.quickweb.service.DictService;
 
 public class DictTest extends SpringTransactionalContextTests{
@@ -26,6 +29,9 @@ public class DictTest extends SpringTransactionalContextTests{
 	private DictDao dao;
 	
 	@Autowired
+	private ParentDao parentDao;
+	
+	@Autowired
 	private DictService daoService;
 	
 	@PersistenceUnit
@@ -34,9 +40,11 @@ public class DictTest extends SpringTransactionalContextTests{
 	
 	@Test
 	public void mainTest(){
-		System.out.println("go");
-		//this.JPACacheNamedCacheTest();
-		//this.showCacheStatisticsInfo();
+		
+		this.firstCacheTest();
+		this.secondCachetest();
+		this.QueryCacheTest();
+		this.showCacheStatisticsInfo();
 	}
 	
 	/**
@@ -58,14 +66,7 @@ public class DictTest extends SpringTransactionalContextTests{
 		em2.close();
 	}
 
-	
-	/********************
-	 * 二级缓存测试
-	 * 
-	 * 实体内注释 @cacheable
-	 * 
-	 * **************************/
-	
+
 	private void secondCachetest(){
 		
 		EntityManager em1 = emf.createEntityManager();
@@ -79,21 +80,49 @@ public class DictTest extends SpringTransactionalContextTests{
 	}
 	
 	
-	private void SpringCacheTest(){
-		List<Dict> list1 = daoService.getAllDictsWithSpringCache();
-		List<Dict> list2 = daoService.getAllDictsWithSpringCache();
-		logger.info(list1.toString());
-		logger.info(list2.toString());
+	private void SimpleJpaRepositoryCacheTest(){
+		dao.findAllCached();
+		dao.findAllCached();
 	}
 	
-	private void JPACacheTest(){
-		List<Dict> list1 = daoService.getAllDictsWithJPACache();
-		List<Dict> list2 = daoService.getAllDictsWithJPACache();
+	
+	private void QueryCacheTest(){
+		//无效的spring-data-jpa实现的接口方法
+		//输出两条sql语句
+		dao.findAll();
+		dao.findAll();
+		System.out.println("================test 1 finish======================");
+		//自己实现的dao方法可以被查询缓存
+		//输出一条sql语句
+		dao.findAllCached();
+		dao.findAllCached();
+		System.out.println("================test 2 finish======================");
+		//自己实现的dao方法可以被查询缓存
+		//输出一条sql语句
+		dao.findDictByName("a");
+		dao.findDictByName("a");
+		System.out.println("================test 3 finish======================");
 	}
 	
-	private void JPACacheNamedCacheTest(){
-		Dict d1 = daoService.getDictsWithJPACache("a");
-		Dict d2 = daoService.getDictsWithJPACache("b");
+	private void cellectionCacheTest(){
+		EntityManager em1 = emf.createEntityManager();
+		Parent p1 = em1.find(Parent.class, 1);
+		List<Children> c1 = p1.getClist();
+		em1.close();
+		System.out.println(p1.getName()+" ");
+		for (Children children : c1) {
+			System.out.print(children.getName()+",");
+		}
+		System.out.println();
+		EntityManager em2 = emf.createEntityManager();
+		Parent p2 = em2.find(Parent.class, 1);
+		List<Children> c2 = p2.getClist();
+		em2.close();
+		System.out.println(p2.getName()+" ");
+		for (Children children : c2) {
+			System.out.print(children.getName()+",");
+		}
+		System.out.println();
 	}
 	
 	
