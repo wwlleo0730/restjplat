@@ -34,8 +34,9 @@ public class DictTest extends SpringTransactionalContextTests{
 	
 	@Test
 	public void mainTest(){
-		this.JPACacheNamedCacheTest();
-		this.showCacheStatisticsInfo();
+		System.out.println("go");
+		//this.JPACacheNamedCacheTest();
+		//this.showCacheStatisticsInfo();
 	}
 	
 	/**

@@ -3,6 +3,7 @@ package com.restjplat.quickweb.model;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -10,9 +11,6 @@ import javax.persistence.Table;
 @Table(name ="parent")
 public class Parent extends IdEntity {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private List<Children> clist;
@@ -24,7 +22,7 @@ public class Parent extends IdEntity {
 		this.name = name;
 	}
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "parent")
 	public List<Children> getClist() {
 		return clist;
 	}
